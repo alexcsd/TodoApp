@@ -26,13 +26,14 @@ class App extends Component {
     });
   }
   
-  componentDidMount = ()  => {
+  componentWillMount = ()  => {
     console.log(this.state.errors);
-    axios.get(`http://127.0.0.1:8000/api/todos`)
+    axios.get('http://127.0.0.1:8000/api/todos')
       .then(res => {
         const todos = res.data;
         this.setState({ todos: todos.map( todo => <TodoItem key={todo._id} handleDelete={this.handleDelete}  todo={todo} />) });
-      });
+      })
+      .catch(error => console.log(error));;
   }
 
   handleDelete(event) {
@@ -46,7 +47,6 @@ class App extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(event.target.title.value);
     const todo = {
       title: event.target.title.value,
       details: event.target.details.value
@@ -57,11 +57,11 @@ class App extends Component {
         const todos = res.data;
         this.setState({ todos: todos.map(todo => <TodoItem key={todo._id} handleDelete={this.handleDelete}  todo={todo} />) });
       })
-      // .catch( error => console.log(error.response.data));
-    .catch (errors => this.setState({ errors: Object.values(errors.response.data).map(error => <li key={error} >{error}</li>),visible: true }));
+      .catch( error => console.log(error));
+    // .catch (errors => this.setState({ errors: Object.values(errors.response.data).map(error => <li key={error} >{error}</li>),visible: true }));
   }
   render() {
-
+    
     return (
       <div>
         <Navbar color="dark" dark>

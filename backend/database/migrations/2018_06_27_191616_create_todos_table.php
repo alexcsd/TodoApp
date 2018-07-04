@@ -18,18 +18,17 @@ class CreateTodosTable extends Migration
 
     public function up()
     {
-        Schema::connection($this->connection)
-        ->table('todos', function (Blueprint $collection) 
-        {
-            $collection->index('name');
-        });
-        // Schema::create('todos', function($collection)
+        // Schema::connection($this->connection)
+        // ->table('todos', function (Blueprint $collection) 
         // {
         //     $collection->index('name');
-
-        //     $collection->unique('email');
         // });
-        
+        Schema::create('todos', function (Blueprint $table) {
+            $table->increments('_id');
+            $table->string('title');
+            $table->string('details');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -39,11 +38,11 @@ class CreateTodosTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)
-        ->table('todos', function (Blueprint $collection) 
-        {
-            $collection->drop();
-        });
-        // Schema::drop('todos');
+        // Schema::connection($this->connection)
+        // ->table('todos', function (Blueprint $collection) 
+        // {
+        //     $collection->drop();
+        // });
+        Schema::drop('todos');
     }
 }
